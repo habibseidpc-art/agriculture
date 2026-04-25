@@ -6,6 +6,8 @@ import { ThemeContext } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import { Sprout, Send, Clock, LogOut, Info, AlertTriangle, Sun, Moon, Globe } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const FarmerPortal = () => {
   const { user, logout } = useContext(AuthContext);
   const { t, language, changeLanguage } = useContext(LanguageContext);
@@ -20,7 +22,7 @@ const FarmerPortal = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/requests');
+      const res = await axios.get(`${API_URL}/requests`);
       setRequests(res.data);
     } catch (err) { console.error(err); }
   };
@@ -30,7 +32,7 @@ const FarmerPortal = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/requests', formData);
+      await axios.post(`${API_URL}/requests`, formData);
       setFormData({ cropType: '', problemDescription: '', farmSize: '' });
       fetchRequests();
     } catch (err) { console.error(err); }

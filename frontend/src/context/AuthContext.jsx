@@ -3,6 +3,8 @@ import axios from 'axios';
 
 export const AuthContext = createContext();
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
@@ -10,8 +12,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      // In a real app, you would verify the token with the backend here.
-      // For now, we decode it manually or just trust the local storage user object.
       const storedUser = localStorage.getItem('user');
       if (storedUser) setUser(JSON.parse(storedUser));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (phoneNumber, password) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { phoneNumber, password });
+      const res = await axios.post(`${API_URL}/auth/login`, { phoneNumber, password });
       setToken(res.data.token);
       setUser(res.data.user);
       localStorage.setItem('token', res.data.token);
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', userData);
+      const res = await axios.post(`${API_URL}/auth/register`, userData);
       setToken(res.data.token);
       setUser(res.data.user);
       localStorage.setItem('token', res.data.token);

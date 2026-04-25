@@ -6,6 +6,8 @@ import { ThemeContext } from '../context/ThemeContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Sprout, LayoutDashboard, Users, MessageSquare, LogOut, Send, MapPin, Sun, Moon, Globe } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const OfficerPortal = () => {
   const { user, logout } = useContext(AuthContext);
   const { t, language, changeLanguage } = useContext(LanguageContext);
@@ -22,7 +24,7 @@ const OfficerPortal = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/requests');
+      const res = await axios.get(`${API_URL}/requests`);
       setRequests(res.data);
     } catch (err) { console.error(err); }
   };
@@ -42,7 +44,7 @@ const OfficerPortal = () => {
   const handleSubmitAdvisory = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/requests/${selectedRequest._id}/advise`, advisoryData);
+      await axios.put(`${API_URL}/requests/${selectedRequest._id}/advise`, advisoryData);
       setSelectedRequest(null);
       fetchRequests();
     } catch (err) { console.error(err); }

@@ -6,6 +6,8 @@ import { LanguageContext } from '../context/LanguageContext';
 import { ThemeContext } from '../context/ThemeContext';
 import { Sprout, LayoutDashboard, Users, LogOut, Tractor, Activity, CheckCircle, TrendingUp, Sun, Moon, Globe } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const Dashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const { t, language, changeLanguage } = useContext(LanguageContext);
@@ -20,7 +22,7 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/requests/dashboard');
+      const res = await axios.get(`${API_URL}/requests/dashboard`);
       setStats(res.data);
     } catch (err) { console.error(err); }
   };
