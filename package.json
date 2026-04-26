@@ -1,13 +1,16 @@
 {
   "scripts": {
     "start": "node backend/server.js",
-    "server": "cd backend && npm start",
-    "client": "cd frontend && npm run dev",
-    "dev": "npm run server & npm run client"
+    "server": "node backend/server.js",
+    "client": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "lucide-react": "^1.11.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

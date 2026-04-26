@@ -22,9 +22,9 @@ router.post("/register", async (req, res) => {
     await user.save();
 
     const payload = { user: { id: user.id, role: user.role } };
-    jwt.sign(payload, "secret", { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET || "secret", { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
-      res.json({ token, user: { id: user.id, role: user.role, fullName: user.fullName } });
+      res.json({ token, user: { id: user.id, role: user.role, fullName: user.fullName, location: user.location } });
     });
   } catch (err) {
     console.error(err.message);
@@ -48,9 +48,9 @@ router.post("/login", async (req, res) => {
     }
 
     const payload = { user: { id: user.id, role: user.role } };
-    jwt.sign(payload, "secret", { expiresIn: 360000 }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_SECRET || "secret", { expiresIn: 360000 }, (err, token) => {
       if (err) throw err;
-      res.json({ token, user: { id: user.id, role: user.role, fullName: user.fullName } });
+      res.json({ token, user: { id: user.id, role: user.role, fullName: user.fullName, location: user.location } });
     });
   } catch (err) {
     console.error(err.message);
